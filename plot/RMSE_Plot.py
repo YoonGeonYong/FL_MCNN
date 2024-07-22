@@ -2,23 +2,32 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the CSV files
-mae_mse_log = pd.read_csv('plot/mae_mse_log.csv')
-evaluate_metrics = pd.read_csv('plot/evaluate_metrics.csv')
+Origin_log = pd.read_csv('plot/origin_MCNN.csv')
+FL_MCNN = pd.read_csv('plot/FL_MCNN.csv')
+FL_MCNN_split = pd.read_csv('plot/FL_MCNN_split.csv')
+
 
 # Calculate the average RMSE over every 5 epochs for both dataframes
-mae_mse_log['Epoch_Group'] = (mae_mse_log['Epoch'] - 1) // 5
-evaluate_metrics['Epoch_Group'] = (evaluate_metrics['Epoch'] - 1) // 5
+Origin_log['Epoch_Group'] = (Origin_log['Epoch'] - 1) // 5
+FL_MCNN['Epoch_Group'] = (FL_MCNN['Epoch'] - 1) // 5
+FL_MCNN_split['Epoch_Group'] = (FL_MCNN_split['Epoch'] - 1) // 5
 
-mae_mse_log_avg = mae_mse_log.groupby('Epoch_Group').mean().reset_index()
-evaluate_metrics_avg = evaluate_metrics.groupby('Epoch_Group').mean().reset_index()
 
-# Plot the averaged RMSE values from both dataframes
+Origin_log_avg = Origin_log.groupby('Epoch_Group').mean().reset_index()
+FL_MCNN_avg = FL_MCNN.groupby('Epoch_Group').mean().reset_index()
+FL_MCNN_split_avg = FL_MCNN_split.groupby('Epoch_Group').mean().reset_index()
+
+
+
 plt.figure(figsize=(12, 6))
 
-# Plot RMSE from mae_mse_log.csv
-plt.plot(mae_mse_log_avg['Epoch_Group'] * 5 + 1, mae_mse_log_avg['rmse'], label='mae_mse_log RMSE (Averaged)', marker='o', linestyle='--')
-# Plot RMSE from evaluate_metrics.csv
-plt.plot(evaluate_metrics_avg['Epoch_Group'] * 5 + 1, evaluate_metrics_avg['rmse'], label='evaluate_metrics RMSE (Averaged)', marker='x', linestyle='--')
+
+plt.plot(Origin_log_avg['Epoch_Group'] * 5 + 1, Origin_log_avg['rmse'], label='Origin_log RMSE (Averaged)', marker='o', linestyle='--')
+
+plt.plot(FL_MCNN_avg['Epoch_Group'] * 5 + 1, FL_MCNN_avg['rmse'], label='FL_MCNN RMSE (Averaged)', marker='x', linestyle='--')
+
+plt.plot(FL_MCNN_split_avg['Epoch_Group'] * 5 + 1, FL_MCNN_split_avg['rmse'], label='FL_MCNN_split RMSE (Averaged)', marker='o', linestyle='--')
+
 
 # Adding labels and title
 plt.xlabel('Epoch')
