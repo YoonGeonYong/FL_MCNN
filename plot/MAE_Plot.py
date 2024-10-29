@@ -18,7 +18,7 @@ FL_MCNN_split_avg = FL_MCNN_split.groupby('Epoch_Group').mean().reset_index()
 plt.figure(figsize=(12, 6))
 
 
-plt.plot(Origin_log_avg['Epoch_Group'] * 5 + 1, Origin_log_avg['mae'], label='Origin_log MAE (Averaged)', marker='o')
+plt.plot(Origin_log_avg['Epoch_Group'] * 5 + 1, Origin_log_avg['mae'], label='Origin_log MAE (Averaged)', marker='o', linestyle='--')
 
 plt.plot(FL_MCNN_split_avg['Epoch_Group'] * 5 + 1, FL_MCNN_split_avg['mae'], label='FL_MCNN_split MAE (Averaged)', marker='o')
 
