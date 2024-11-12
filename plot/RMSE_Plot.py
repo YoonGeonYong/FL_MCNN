@@ -7,8 +7,8 @@ FL_MCNN_split = pd.read_csv('plot/FL_MCNN_split.csv')
 
 
 # Calculate the average RMSE over every 5 epochs for both dataframes
-Origin_log['Epoch_Group'] = (Origin_log['Epoch'] - 1) // 5
-FL_MCNN_split['Epoch_Group'] = (FL_MCNN_split['Epoch'] - 1) // 5
+Origin_log['Epoch_Group'] = (Origin_log['Epoch'] - 1) // 10
+FL_MCNN_split['Epoch_Group'] = (FL_MCNN_split['Epoch'] - 1) // 10
 
 
 Origin_log_avg = Origin_log.groupby('Epoch_Group').mean().reset_index()
@@ -27,7 +27,7 @@ plt.plot(FL_MCNN_split_avg['Epoch_Group'] * 5 + 1, FL_MCNN_split_avg['rmse'], la
 # Adding labels and title
 plt.xlabel('Epoch')
 plt.ylabel('RMSE')
-plt.title('Averaged RMSE over Epochs (5 Epochs Grouped)')
+plt.title('Averaged RMSE over Epochs (10 Epochs Grouped)')
 plt.legend()
 plt.grid(True)
 
