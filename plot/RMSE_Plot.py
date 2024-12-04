@@ -20,7 +20,7 @@ FL_MCNN_split_mean_rmse = FL_MCNN_split['rmse'].mean()
 percent_diff = ((Origin_log_mean_rmse - FL_MCNN_split_mean_rmse) / Origin_log_mean_rmse) * 100
 
 # Plot RMSE over epochs
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(16, 12))
 
 # Line plot for RMSE values
 plt.plot(
@@ -28,35 +28,34 @@ plt.plot(
     Origin_log_avg['rmse'],
     label='Origin_log RMSE (Averaged)',
     marker='o',
-    linestyle='--'
+    linestyle='--',
+    color='blue'
 )
 plt.plot(
     FL_MCNN_split_avg['Epoch_Group'] * 10 + 1,
     FL_MCNN_split_avg['rmse'],
     label='FL_MCNN_split RMSE (Averaged)',
-    marker='o'
+    marker='o',
+    color='orange'
 )
 
-# Add the percentage difference annotation
-plt.text(
-    700,  # X-coordinate (adjust based on your graph)
-    max(Origin_log_avg['rmse'].max(), FL_MCNN_split_avg['rmse'].max()) * 0.9,  # Y-coordinate
-    f"Difference: {percent_diff:.2f}%",
-    fontsize=16,
-    # color='red',
-    bbox=dict(facecolor='white', alpha=0.8, boxstyle='round,pad=0.5')
-)
 
 # Adding labels and title
-plt.xlabel('Epoch', fontsize=16)
-plt.ylabel('RMSE', fontsize=16)
+plt.xlabel('Epoch', fontsize=20)
+plt.ylabel('RMSE', fontsize=20)
 plt.legend(fontsize=14)
 plt.grid(True)
 
+# Modify legend box size and position
+plt.legend(
+    fontsize=23,          # Increase font size
+    loc='upper right',    # Legend position
+    frameon=True,         # Add a frame around the legend
+    )
+
 # Increase tick label size
-plt.xticks(fontsize=14)
-plt.yticks(fontsize=14)
+plt.xticks(fontsize=18)
+plt.yticks(fontsize=18)
 
 # Show the plot
-plt.title('Averaged RMSE over Epochs (10 Epochs Grouped)', fontsize=18)
 plt.show()
