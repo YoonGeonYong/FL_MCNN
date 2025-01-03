@@ -56,10 +56,10 @@ class Huber(BaseMetric):
         self.delta = delta
 
     def collect(self, pred, true):
-        pred = pred.sum().item()
-        true = true.sum().item()
-        error = true - pred
-        if abs(error) <= self.delta:
+        pred            = pred.sum().item()
+        true            = true.sum().item()
+        error           = true - pred
+        if abs(error)   <= self.delta:
             self.errors.append(0.5 * (error ** 2))
         else:
             self.errors.append(self.delta * (abs(error) - 0.5 * self.delta))

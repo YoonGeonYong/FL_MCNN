@@ -7,10 +7,10 @@ from src.data_loader import ImageDataLoader
 from src.metricszoo import Mae, Rmse, Huber
 
 # Configuration
-train_path = './data/formatted_trainval/shanghaitech_part_A_patches_9/train'
-train_gt_path = './data/formatted_trainval/shanghaitech_part_A_patches_9/train_den'
-val_path = './data/formatted_trainval/shanghaitech_part_A_patches_9/val'
-val_gt_path = './data/formatted_trainval/shanghaitech_part_A_patches_9/val_den'
+train_path      = './data/formatted_trainval/shanghaitech_part_A_patches_9/train'
+train_gt_path   = './data/formatted_trainval/shanghaitech_part_A_patches_9/train_den'
+val_path        = './data/formatted_trainval/shanghaitech_part_A_patches_9/val'
+val_gt_path     = './data/formatted_trainval/shanghaitech_part_A_patches_9/val_den'
 
 lr = 0.00001
 
@@ -63,22 +63,22 @@ class CrowdCountingClient(fl.client.NumPyClient):
         self.set_parameters(parameters)
 
         # Additional metrics
-        mae_metric = Mae()
-        rmse_metric = Rmse()
-        huber_metric = Huber(delta=1.0)
+        mae_metric      = Mae()
+        rmse_metric     = Rmse()
+        huber_metric    = Huber(delta=1.0)
 
         for blob in val_loader:
-            im_data = torch.tensor(blob['data'], dtype=torch.float32).to(device)
-            gt_data = torch.tensor(blob['gt_density'], dtype=torch.float32).to(device)
+            im_data     = torch.tensor(blob['data'], dtype=torch.float32).to(device)
+            gt_data     = torch.tensor(blob['gt_density'], dtype=torch.float32).to(device)
             density_map = net(im_data, gt_data)
             mae_metric.collect(density_map, gt_data)
             rmse_metric.collect(density_map, gt_data)
             huber_metric.collect(density_map, gt_data)
 
         metrics = {
-            "mae": float(mae_metric.summarize()),
-            "rmse": float(rmse_metric.summarize()),
-            "huber": float(huber_metric.summarize())
+            "mae":      float(mae_metric.summarize()),
+            "rmse":     float(rmse_metric.summarize()),
+            "huber":    float(huber_metric.summarize())
         }
 
         return metrics["mae"], len(val_loader), metrics

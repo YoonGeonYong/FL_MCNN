@@ -11,9 +11,9 @@ def evaluate_config(rnd: int):
 
 def aggregate_fit(results):
     aggregated_metrics = {
-        "mae": [],
-        "rmse": [],
-        "huber": [],
+        "mae":      [],
+        "rmse":     [],
+        "huber":    [],
     }
 
     for num_examples, metric_dict in results:
@@ -32,9 +32,9 @@ def aggregate_fit(results):
 
 def aggregate_evaluate(metrics: list):
     aggregated_metrics = {
-        "mae": [],
-        "rmse": [],
-        "huber": [],
+        "mae":      [],
+        "rmse":     [],
+        "huber":    [],
     }
 
     for _, metric_dict in metrics:
@@ -70,20 +70,20 @@ class CustomFedAvg(FedAvg):
         return aggregated_loss, aggregated_metrics
 
 strategy = CustomFedAvg(
-    fraction_fit=1.0,
-    fraction_evaluate=1.0,
-    min_fit_clients=2,
-    min_evaluate_clients=2,
-    min_available_clients=2,
-    on_fit_config_fn=fit_config,
-    on_evaluate_config_fn=evaluate_config,
-    fit_metrics_aggregation_fn=aggregate_fit,  # Add this line to provide fit metrics aggregation function
-    evaluate_metrics_aggregation_fn=aggregate_evaluate,
+    fraction_fit                    =1.0,
+    fraction_evaluate               =1.0,
+    min_fit_clients                 =2,
+    min_evaluate_clients            =2,
+    min_available_clients           =2,
+    on_fit_config_fn                =fit_config,
+    on_evaluate_config_fn           =evaluate_config,
+    fit_metrics_aggregation_fn      =aggregate_fit,  # Add this line to provide fit metrics aggregation function
+    evaluate_metrics_aggregation_fn =aggregate_evaluate,
 )
 
 if __name__ == "__main__":
     fl.server.start_server(
-        server_address="0.0.0.0:8080",
-        config=fl.server.ServerConfig(num_rounds=500),
-        strategy=strategy,
+        server_address  ="0.0.0.0:8080",
+        config          =fl.server.ServerConfig(num_rounds=500),
+        strategy        =strategy,
     )
